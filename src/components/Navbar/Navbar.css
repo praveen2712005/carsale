@@ -1,0 +1,344 @@
+/* Navbar.css - Fully Responsive Premium Design */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #232526 0%, #414345 100%);
+  color: #f5f5f5;
+  padding: clamp(12px, 4vw, 18px) clamp(15px, 5vw, 50px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 2px solid #007bff;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+/* Mobile Menu Toggle Button (Hamburger) */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+}
+
+.mobile-menu-toggle span {
+  width: 100%;
+  height: 3px;
+  background: #f5f5f5;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Nav Logo */
+.nav-logo h2 {
+  margin: 0;
+  font-size: clamp(20px, 5vw, 28px);
+  font-weight: 700;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #007bff, #00a6ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.nav-logo h2:hover {
+  transform: scale(1.05);
+}
+
+/* Nav Links Container */
+.nav-links {
+  display: flex;
+  gap: clamp(10px, 3vw, 18px);
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+/* Nav Buttons */
+.nav-links button {
+  background: #222;
+  border: 1px solid #007bff;
+  color: #f5f5f5;
+  font-size: clamp(14px, 3vw, 17px);
+  padding: clamp(6px, 2vw, 8px) clamp(12px, 4vw, 18px);
+  border-radius: 22px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.08);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.nav-links button:hover {
+  background: #007bff;
+  color: #fff;
+  border-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.nav-links button:active {
+  transform: translateY(0);
+}
+
+/* Username Display */
+.namehere {
+  margin: 0;
+  font-size: clamp(16px, 3.5vw, 20px);
+  font-weight: 500;
+  color: #f5f5f5;
+  align-self: center;
+  background: rgba(0, 123, 255, 0.2);
+  padding: 5px 12px;
+  border-radius: 20px;
+  border-left: 2px solid #007bff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+/* Cart Badge (Optional - Add if you have cart count) */
+.cart-badge {
+  position: relative;
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #ff6b35;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* Desktop View (1025px and above) */
+@media (min-width: 1025px) {
+  .nav-links {
+    display: flex !important;
+  }
+}
+
+/* Tablet View (768px - 1024px) */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 15px 25px;
+  }
+  
+  .nav-links button {
+    padding: 6px 14px;
+    font-size: 14px;
+  }
+  
+  .namehere {
+    font-size: 16px;
+    max-width: 120px;
+  }
+  
+  .nav-logo h2 {
+    font-size: 22px;
+  }
+}
+
+/* Mobile View (up to 767px) */
+@media (max-width: 767px) {
+  .navbar {
+    padding: 12px 20px;
+    flex-wrap: wrap;
+  }
+  
+  /* Show hamburger menu */
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  /* Mobile menu - initially hidden */
+  .nav-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 123, 255, 0.3);
+    animation: slideDown 0.3s ease;
+  }
+  
+  /* Show menu when active */
+  .nav-links.mobile-open {
+    display: flex;
+  }
+  
+  .nav-links button {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  .namehere {
+    width: 100%;
+    text-align: center;
+    margin-top: 5px;
+    max-width: none;
+    white-space: normal;
+    word-break: break-word;
+  }
+  
+  /* Reorder items for mobile */
+  .nav-logo {
+    order: 1;
+  }
+  
+  .mobile-menu-toggle {
+    order: 2;
+  }
+  
+  .namehere {
+    order: 3;
+  }
+  
+  .nav-links {
+    order: 4;
+  }
+}
+
+/* Small Mobile (up to 480px) */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 10px 15px;
+  }
+  
+  .nav-logo h2 {
+    font-size: 18px;
+  }
+  
+  .mobile-menu-toggle {
+    width: 25px;
+    height: 18px;
+  }
+  
+  .mobile-menu-toggle span {
+    height: 2px;
+  }
+  
+  .namehere {
+    font-size: 14px;
+    padding: 3px 10px;
+  }
+  
+  .nav-links button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+
+/* Extra Small Mobile (up to 320px) */
+@media (max-width: 320px) {
+  .nav-logo h2 {
+    font-size: 16px;
+  }
+  
+  .namehere {
+    font-size: 12px;
+  }
+  
+  .nav-links button {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+}
+
+/* Animation for mobile menu */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll effect - navbar shrinks on scroll */
+.navbar.scrolled {
+  padding: clamp(8px, 3vw, 12px) clamp(15px, 5vw, 50px);
+  background: linear-gradient(90deg, #1a1c1e 0%, #2d2f31 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+  .nav-links button:hover {
+    background: #222;
+    transform: none;
+  }
+  
+  .nav-links button:active {
+    background: #007bff;
+    transform: scale(0.98);
+  }
+}
+
+/* Accessibility - Focus styles */
+.nav-links button:focus-visible,
+.mobile-menu-toggle:focus-visible {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .navbar {
+    background: linear-gradient(90deg, #1a1c1e 0%, #2d2f31 100%);
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .nav-links,
+  .nav-logo h2,
+  .nav-links button {
+    transition: none;
+    animation: none;
+  }
+  
+  .mobile-menu-toggle span {
+    transition: none;
+  }
+}
