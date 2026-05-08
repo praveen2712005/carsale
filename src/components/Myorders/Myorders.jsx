@@ -51,7 +51,7 @@ function MyOrders() {
       );
 
       console.log(response.data);
-
+       
       setOrders(response.data);
 
     } catch (error) {
@@ -195,7 +195,6 @@ function MyOrders() {
       <div className="myorders-container">
 
         <h2 className="orders-title">
-          My Orders
         </h2>
 
         {orders.length === 0 ? (

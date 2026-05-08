@@ -12,6 +12,7 @@ import MyOrders from "./components/Myorders/Myorders";
 import Profile from "./components/Profile/Profile";
 import Footer from "./components/Footer/Footer";
 import Category from "./components/Category/Category";
+import Settings from "./components/Settings/Settings";
 import "./body.css";
 
 
@@ -33,6 +34,7 @@ function Layout() {
         <Route path="/myorders" element={<MyOrders />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/category/:categoryName" element={<Category />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
 
     

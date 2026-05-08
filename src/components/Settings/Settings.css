@@ -1,0 +1,87 @@
+/* Full Page */
+
+.settings-page{
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+/* Title */
+
+.settings-title{
+    text-align: center;
+    margin-bottom: 25px;
+    color: #222;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/* Buttons Container */
+
+.settings-buttons{
+    width: 100%;
+    max-width: 420px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Common Button */
+
+.settings-btn{
+    width: 100%;
+    padding: 15px 18px;
+    border: none;
+    border-radius: 12px;
+    background-color: white;
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+/* Hover */
+
+.settings-btn:hover{
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+/* Active */
+
+.settings-btn:active{
+    transform: scale(0.98);
+}
+
+/* Logout */
+
+.logout-btn{
+    background-color: #ff4d4d;
+    color: white;
+}
+
+.logout-btn:hover{
+    background-color: #e63c3c;
+}
+
+/* Mobile Responsive */
+
+@media screen and (max-width: 500px){
+
+    .settings-page{
+        padding: 15px;
+    }
+
+    .settings-title{
+        font-size: 24px;
+    }
+
+    .settings-btn{
+        font-size: 15px;
+        padding: 14px 16px;
+    }
+}

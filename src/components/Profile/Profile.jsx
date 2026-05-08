@@ -1,25 +1,145 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Profile.css";
 import Navbar from "../Navbar/Navbar";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
+
+  const userData =
+    JSON.parse(localStorage.getItem("userdata")) || {};
+
+  const productdata =
+    JSON.parse(localStorage.getItem("myOrders")) || [];
+
+  const navigate = useNavigate();
+
+  const [address, setAddress] =
+    useState(userData.address || "");
+
+  const [isEditing, setIsEditing] =
+    useState(userData.address ? false : true);
+
+  // Save Address
+  const saveAddress = () => {
+
+    const updatedUser = {
+      ...userData,
+      address: address
+    };
+
+    localStorage.setItem(
+      "userdata",
+      JSON.stringify(updatedUser)
+    );
+
+    setIsEditing(false);
+
+    alert("Address Saved Successfully");
+  };
+
   return (
-   <>
-   <Navbar/>
-    <div className="profile">
-      <h2>My Profile</h2>
-      <div className="profile-info">
-        <p><b>Name:</b> Praveen</p>
-        <p><b>Email:</b> praveen@example.com</p>
-        <p><b>Phone:</b> +91 9876543210</p>
-        <p><b>Address:</b> 123 Main Street, Chennai, India</p>
-        <p><b>Member Since:</b> January 2023</p>
-        <p><b>Orders:</b> 15</p>
-        <button>Edit Profile</button>
-        <button>View Orders</button>
-        <button>Change Password</button>
+    <>
+      <Navbar />
+
+      <div className="profile">
+
+        
+
+        <div className="profile-info">
+
+          <p>
+            <b>Name</b>
+            <span>{userData.name}</span>
+          </p>
+
+          <p>
+            <b>Email</b>
+            <span>{userData.email}</span>
+          </p>
+
+          <p>
+            <b>Phone</b>
+            <span>{userData.number}</span>
+          </p>
+
+          <p>
+            <b>Total Orders</b>
+            <span>{productdata.length}</span>
+          </p>
+
+          {/* Premium Address Card */}
+
+          <div className="address-card">
+
+            <div className="address-top">
+
+              <h3>Shipping Address</h3>
+
+              {!isEditing && (
+                <button
+                  className="edit-btn"
+                  onClick={() => setIsEditing(true)}
+                >
+                  Edit
+                </button>
+              )}
+
+            </div>
+
+            {isEditing ? (
+
+              <>
+                <textarea
+                  value={address}
+                  onChange={(e) =>
+                    setAddress(e.target.value)
+                  }
+                  placeholder="Enter your address"
+                  rows="4"
+                />
+
+                <button
+                  className="save-address-btn"
+                  onClick={saveAddress}
+                >
+                  Save Address
+                </button>
+              </>
+
+            ) : (
+
+              <div className="saved-address">
+                {address}
+              </div>
+
+            )}
+
+          </div>
+
+          {/* Buttons */}
+
+          <div className="profile-buttons">
+
+            <button>
+              Edit Profile
+            </button>
+
+            <button
+              onClick={() => navigate("/myorders")}
+            >
+              View Orders
+            </button>
+
+            <button>
+              Change Password
+            </button>
+
+          </div>
+
+        </div>
+
       </div>
-    </div></>
+    </>
   );
 }
 

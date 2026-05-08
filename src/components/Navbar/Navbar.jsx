@@ -100,11 +100,7 @@ function Navbar() {
           </>
         ) : null}
 
-        <button onClick={() => {
-          setIsMobileMenuOpen(false);
-          // Add settings logic here
-          console.log("Settings clicked");
-        }}>
+        <button onClick={() => handleNavigation('/settings')}>
           Settings
         </button>
 

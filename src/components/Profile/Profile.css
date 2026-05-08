@@ -1,167 +1,220 @@
 .profile {
-  max-width: 500px;
+  max-width: 650px;
   margin: 40px auto;
   padding: 0 20px;
-  font-family: 'Georgia', 'Times New Roman', serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .profile h2 {
   text-align: center;
-  color: #2c3e50;
-  font-size: 2.2rem;
-  margin-bottom: 30px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #b9936c;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  color: #0f172a;
+  font-size: 2.5rem;
+  margin-bottom: 35px;
+  font-weight: 700;
 }
+
+/* Main Card */
 
 .profile-info {
-  background: #f8f5f0;
-  border: 2px solid #d4c7b0;
-  border-radius: 8px;
-  padding: 35px 30px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  color: #333;
-  position: relative;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(14px);
+  border-radius: 24px;
+  padding: 35px;
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.08);
+  border: 1px solid rgba(255,255,255,0.3);
 }
 
-.profile-info::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #b9936c, #d4c7b0, #8b7355);
-}
+/* Basic Details */
 
 .profile-info p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 0;
+  padding: 18px 0;
   margin: 0;
-  border-bottom: 1px solid #e8e0d5;
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
-
-.profile-info p:last-of-type {
-  border-bottom: none;
-  margin-bottom: 25px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 1.05rem;
+  color: #334155;
 }
 
 .profile-info b {
-  color: #2c3e50;
+  color: #0f172a;
   font-weight: 600;
-  min-width: 120px;
-  text-align: left;
 }
 
-.profile-info p:not(:has(b)) {
-  justify-content: center;
-  border-bottom: none;
-  padding-top: 25px;
-}
+/* Shared Premium Card */
 
-.profile-info button {
-  padding: 12px 24px;
-  background: #8b7355;
+.phone-card,
+.address-card {
+  margin-top: 28px;
+  padding: 24px;
+  border-radius: 20px;
+  background:
+    linear-gradient(
+      135deg,
+      #0f172a,
+      #1e293b
+    );
   color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
+  box-shadow:
+    0 14px 35px rgba(15,23,42,0.25);
+}
+
+/* Card Top */
+
+.phone-top,
+.address-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.phone-top h3,
+.address-top h3 {
+  margin: 0;
+  font-size: 1.15rem;
   font-weight: 600;
-  transition: all 0.3s ease;
-  margin: 0 8px 10px 8px;
-  min-width: 140px;
-  font-family: 'Georgia', 'Times New Roman', serif;
-  letter-spacing: 0.3px;
 }
 
-.profile-info button:hover {
-  background: #b9936c;
+/* Saved Text */
+
+.saved-phone,
+.saved-address {
+  font-size: 1rem;
+  color: #f8fafc;
+  line-height: 1.8;
+  white-space: pre-line;
+}
+
+/* Inputs */
+
+.phone-card input,
+.address-card textarea {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 14px;
+  outline: none;
+  font-size: 15px;
+  font-family: inherit;
+  background: rgba(255,255,255,0.12);
+  color: white;
+  backdrop-filter: blur(10px);
+  margin-bottom: 16px;
+}
+
+.address-card textarea {
+  resize: none;
+}
+
+.phone-card input::placeholder,
+.address-card textarea::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
+/* Buttons */
+
+.save-phone-btn,
+.save-address-btn,
+.edit-btn,
+.profile-buttons button {
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-family: inherit;
+}
+
+/* Save Buttons */
+
+.save-phone-btn,
+.save-address-btn {
+  padding: 12px 22px;
+  border-radius: 12px;
+  background: white;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.save-phone-btn:hover,
+.save-address-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(139, 115, 85, 0.3);
 }
 
-.profile-info button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(139, 115, 85, 0.3);
+/* Edit Button */
+
+.edit-btn {
+  padding: 8px 16px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.12);
+  color: white;
+  font-size: 0.9rem;
 }
 
-.profile-info button:nth-child(7) {
-  background: #2c3e50;
+.edit-btn:hover {
+  background: rgba(255,255,255,0.2);
 }
 
-.profile-info button:nth-child(7):hover {
-  background: #34495e;
+/* Bottom Buttons */
+
+.profile-buttons {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 35px;
 }
 
-.profile-info button:nth-child(8) {
-  background: #7e8c8d;
+.profile-buttons button {
+  flex: 1;
+  min-width: 160px;
+  padding: 14px;
+  border-radius: 14px;
+  background: #0f172a;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
-.profile-info button:nth-child(8):hover {
-  background: #95a5a6;
+.profile-buttons button:hover {
+  background: #1e293b;
+  transform: translateY(-2px);
 }
 
-/* Classic decorative elements */
-.profile-info {
-  background-image: 
-    linear-gradient(rgba(248, 245, 240, 0.9), rgba(248, 245, 240, 0.9)),
-    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="none" stroke="%23d4c7b0" stroke-width="0.5" x="10" y="10" width="80" height="80"/></svg>');
-  background-size: cover;
-}
+/* Responsive */
 
-/* Responsive design */
 @media (max-width: 600px) {
+
   .profile {
-    max-width: 100%;
     padding: 0 15px;
-    margin: 20px auto;
   }
-  
+
   .profile-info {
-    padding: 25px 20px;
+    padding: 24px;
   }
-  
+
   .profile h2 {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
+    font-size: 2rem;
   }
-  
+
   .profile-info p {
     flex-direction: column;
     align-items: flex-start;
-    text-align: left;
-    padding: 12px 0;
+    gap: 6px;
   }
-  
-  .profile-info b {
-    margin-bottom: 5px;
-    min-width: auto;
-  }
-  
-  .profile-info button {
-    width: 100%;
-    margin: 5px 0;
-    max-width: 100%;
-  }
-}
 
-@media (max-width: 380px) {
-  .profile-info {
-    padding: 20px 15px;
+  .profile-buttons {
+    flex-direction: column;
   }
-  
-  .profile-info p {
-    font-size: 1rem;
+
+  .profile-buttons button {
+    width: 100%;
   }
-  
-  .profile h2 {
-    font-size: 1.6rem;
+
+  .phone-top,
+  .address-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
 }

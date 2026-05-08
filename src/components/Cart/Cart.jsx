@@ -77,7 +77,7 @@ const updateQuantity = async (productId, action) => {
   return (
     <>
       <Navbar />
-      <h2>My Cart</h2>
+     
 
       {/* ✅ FIXED CONDITION */}
       {!cart || !cart.items || cart.items.length === 0 ? (
