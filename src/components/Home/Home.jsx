@@ -39,7 +39,7 @@ function Home() {
             <div key={cat.name} className="category-card" onClick={() => handleclick(cat.name)}>
               <span className="category-icon">{cat.icon}</span>
               <h3 className="category-name">{cat.name}</h3>
-              <p className="category-description">{cat.description}</p>
+              
             </div>
           ))}
         </div>
