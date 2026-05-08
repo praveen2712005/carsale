@@ -16,14 +16,22 @@ function Login() {
     e.preventDefault();
     setLoading(true);
     console.log(logindata);
-  const response = await Axios.post("/loginuser", logindata);
-      console.log(response.data);
-      if(response.data.success){
-        localStorage.setItem("userdata", JSON.stringify(response.data.user));
-        navigate("/Home");
-      }else{
-        alert("login failed.tryagain");
-      }
+    const response = await Axios.post("/loginuser", logindata);
+    console.log(response.data);
+    if (response.data.success) {
+      localStorage.setItem(
+        "token",
+        response.data.token
+      );
+      localStorage.setItem(
+        "userdata",
+        JSON.stringify(response.data.user)
+      );
+      alert("Login successful");
+      navigate("/Home");
+    } else {
+      alert("login failed.tryagain");
+    }
   }
 
   return (

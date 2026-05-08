@@ -3,118 +3,248 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
-  const [name, setName] = useState({});
-  const [login, setLogin] = useState(false);
+
+  const [userData, setUserData] = useState(null);
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const [isScrolled, setIsScrolled] = useState(false);
+
   const navigate = useNavigate();
 
+  // GET USERDATA FROM LOCALSTORAGE
   useEffect(() => {
+
     const user = localStorage.getItem("userdata");
-    console.log(user);
+
+    console.log("Stored User:", user);
 
     if (user) {
-      setName(JSON.parse(user));
-      setLogin(true);
+
+      setUserData(JSON.parse(user));
+
     } else {
-      setLogin(false);
+
+      setUserData(null);
+
     }
+
   }, []);
 
-  // Handle scroll effect
+  // SCROLL EFFECT
   useEffect(() => {
+
     const handleScroll = () => {
+
       setIsScrolled(window.scrollY > 50);
+
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+
   }, []);
 
+  // MOBILE MENU
   const toggleMobileMenu = () => {
+
     setIsMobileMenuOpen(!isMobileMenuOpen);
+
   };
 
+  // NAVIGATION
   const handleNavigation = (path) => {
+
     navigate(path);
-    setIsMobileMenuOpen(false); // Close mobile menu after navigation
+
+    setIsMobileMenuOpen(false);
+
   };
 
+  // LOGOUT
   const handleLogout = () => {
-    localStorage.removeItem("userdata");
-    setLogin(false);
-    setName({});
-    handleNavigation("/login");
+
+    localStorage.clear();
+
+    setUserData(null);
+
+    navigate("/login");
+
   };
 
   return (
-    <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
+
+    <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
+
+      {/* LOGO */}
       <div className="nav-logo">
-        <h2 onClick={() => handleNavigation('/home')}>CAR4SALE</h2>
+
+        <h2 onClick={() => handleNavigation("/home")}>
+
+          CAR4SALE
+
+        </h2>
+
       </div>
 
-      {/* Mobile Menu Toggle Button */}
-      <button 
-        className={`mobile-menu-toggle ${isMobileMenuOpen ? 'active' : ''}`}
+      {/* MOBILE TOGGLE */}
+      <button
+        className={`mobile-menu-toggle ${
+          isMobileMenuOpen ? "active" : ""
+        }`}
         onClick={toggleMobileMenu}
         aria-label="Toggle menu"
       >
+
         <span></span>
         <span></span>
         <span></span>
+
       </button>
 
-      {/* Nav Links */}
-      <div className={`nav-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+      {/* NAV LINKS */}
+      <div
+        className={`nav-links ${
+          isMobileMenuOpen ? "mobile-open" : ""
+        }`}
+      >
+
         <Link to="/home">
-          <button onClick={() => setIsMobileMenuOpen(false)}>Home</button>
+
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+
+            Home
+
+          </button>
+
         </Link>
-        
+
         <Link to="/products">
-          <button onClick={() => setIsMobileMenuOpen(false)}>Cars</button>
+
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+
+            Cars
+
+          </button>
+
         </Link>
-        
-        {login && (
+
+        {userData && (
+
           <Link to="/myorders">
-            <button onClick={() => setIsMobileMenuOpen(false)}>Orders</button>
+
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+
+              Orders
+
+            </button>
+
           </Link>
+
         )}
-        
+
         <Link to="/cart">
-          <button onClick={() => setIsMobileMenuOpen(false)}>Cart</button>
+
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+
+            Cart
+
+          </button>
+
         </Link>
-        
-        {login && (
+
+        {userData && (
+
           <Link to="/profile">
-            <button onClick={() => setIsMobileMenuOpen(false)}>Profile</button>
+
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+
+              Profile
+
+            </button>
+
           </Link>
+
         )}
-        
-        {!login ? (
+
+        {!userData ? (
+
           <>
+
             <Link to="/login">
-              <button onClick={() => setIsMobileMenuOpen(false)}>Login</button>
+
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+
+                Login
+
+              </button>
+
             </Link>
+
             <Link to="/register">
-              <button onClick={() => setIsMobileMenuOpen(false)}>Register</button>
+
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+
+                Register
+
+              </button>
+
             </Link>
+
           </>
+
         ) : null}
 
-        <button onClick={() => handleNavigation('/settings')}>
+        <button
+          onClick={() => handleNavigation("/settings")}
+        >
+
           Settings
+
         </button>
 
-        {login && (
+        {userData && (
+
           <button onClick={handleLogout}>
+
             Logout
+
           </button>
+
         )}
+
       </div>
 
-      {/* User Name Display */}
-      {login && name.name && <p className="namehere">Hi, {name.name.split(' ')[0]}!</p>}
+      {/* USER NAME */}
+      {userData?.name && (
+
+        <p className="namehere">
+
+          Hi, {userData.name.split(" ")[0]}!
+
+        </p>
+
+      )}
+
     </nav>
+
   );
+
 }
 
 export default Navbar;
