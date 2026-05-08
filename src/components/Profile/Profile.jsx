@@ -62,10 +62,7 @@ function Profile() {
             <span>{userData.number}</span>
           </p>
 
-          <p>
-            <b>Total Orders</b>
-            <span>{productdata.length}</span>
-          </p>
+         
 
           {/* Premium Address Card */}
 
