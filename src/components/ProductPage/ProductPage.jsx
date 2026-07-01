@@ -9,32 +9,51 @@ function ProductPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function carshere() {
+    async function fetchCars() {
       try {
         const response = await Axios.get("/viewproduct");
-        console.log(response.data, "response data");
         setCars(response.data);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.log(error);
       }
     }
-    carshere();
+
+    fetchCars();
   }, []);
 
   return (
     <>
       <Navbar />
-      <div>
-       
+
+      <div className="product-page">
+
+        <div className="heading-section">
+          <h1>Our Collection</h1>
+          <p>Explore our range of premium, high-performance vehicles</p>
+        </div>
+
         <div className="product-list">
           {cars.map((car) => (
-            <div key={car._id} className="product-card" onClick={() => navigate(`/product/${car._id}`)}>
-              <h2>{car.name}</h2>
-             
-              <img className="carimg" src={car.image} alt="" />
+            <div
+              key={car._id}
+              className="product-card"
+              onClick={() => navigate(`/product/${car._id}`)}
+            >
+              <div className="image-container">
+                <img className="carimg" src={car.image} alt={car.name} />
+              </div>
+
+              <div className="card-content">
+                <h2>{car.name}</h2>
+
+                <button className="view-btn">
+                  View Details
+                </button>
+              </div>
             </div>
           ))}
         </div>
+
       </div>
     </>
   );

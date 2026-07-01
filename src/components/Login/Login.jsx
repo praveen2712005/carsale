@@ -15,22 +15,29 @@ function Login() {
   async function handleLogin(e) {
     e.preventDefault();
     setLoading(true);
-    console.log(logindata);
-    const response = await Axios.post("/loginuser", logindata);
-    console.log(response.data);
-    if (response.data.success) {
-      localStorage.setItem(
-        "token",
-        response.data.token
-      );
-      localStorage.setItem(
-        "userdata",
-        JSON.stringify(response.data.user)
-      );
-      alert("Login successful");
-      navigate("/Home");
-    } else {
-      alert("login failed.tryagain");
+    try {
+      console.log("Sending login data:", logindata);
+      const response = await Axios.post("/loginuser", logindata);
+      console.log("Login response:", response.data);
+
+      if (response.data.success) {
+        const token = response.data.token;
+        console.log("Token received:", token);
+
+        localStorage.setItem("token", token);
+        localStorage.setItem("userdata", JSON.stringify(response.data.user));
+
+        console.log("Token saved to localStorage:", localStorage.getItem("token"));
+        alert("Login successful");
+        navigate("/Home");
+      } else {
+        alert("Login failed: " + (response.data.message || "Try again"));
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      alert("Login error: " + (err.response?.data?.message || err.message));
+    } finally {
+      setLoading(false);
     }
   }
 

@@ -24,7 +24,7 @@ function Layout() {
      
       <Routes>
         <Route path="/register" element={<Register/>}/>
-        <Route path="/" element={<Register />} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/Home" element={<Home />} />
         <Route path="/products" element={<ProductPage />} />
@@ -38,7 +38,7 @@ function Layout() {
       </Routes>
 
     
-      {location.pathname === "/Home" && <Footer />}
+      {location.pathname === "/Home"}
     </>
   );
 }

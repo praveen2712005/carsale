@@ -32,7 +32,9 @@ function Register() {
 
       if (response.data.success) {
 
-        // SAVE USER DATA
+        // SAVE TOKEN + USER DATA (same as login)
+        localStorage.setItem("token", response.data.token);
+
         localStorage.setItem(
 
           "userdata",

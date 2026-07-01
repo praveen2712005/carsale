@@ -7,9 +7,19 @@ import "./Checkout.css";
 function Checkout() {
   const { id } = useParams();
   const navigate = useNavigate(); 
-  const [cart, setCart] = useState(null);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [updatingItem, setUpdatingItem] = useState(null);
+  const [shippingInfo, setShippingInfo] = useState({
+    fullName: "",
+    phone: "",
+    address: "",
+    city: "",
+    pincode: "",
+    paymentMethod: "cod"
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setShippingInfo(prev => ({ ...prev, [name]: value }));
+  };
 
   useEffect(() => {
     async function fetchProduct() {
@@ -20,6 +30,15 @@ function Checkout() {
         alert("Please login first");
         navigate("/login");
         return;
+      }
+
+      // Pre-fill user data if available
+      if (userData) {
+        setShippingInfo(prev => ({
+          ...prev,
+          fullName: userData.name || "",
+          phone: userData.phone || ""
+        }));
       }
 
       try {
@@ -138,6 +157,11 @@ function Checkout() {
 
   const handleBooking = async () => {
     if (isProcessing) return;
+
+    if (!shippingInfo.fullName || !shippingInfo.phone || !shippingInfo.address || !shippingInfo.city || !shippingInfo.pincode) {
+      alert("Please fill in all shipping details");
+      return;
+    }
     
     try {
       setIsProcessing(true);
@@ -167,7 +191,8 @@ function Checkout() {
       const response = await Axios.post("/placeorder", {
         userId: userId,
         items: orderItems,
-        totalAmount: totalAmount
+        totalAmount: totalAmount,
+        shippingInfo: shippingInfo
       });
 
       console.log("Order placed:", response.data);
@@ -186,7 +211,8 @@ function Checkout() {
         })),
         totalAmount: totalAmount,
         status: response.data.order.status,
-        orderDate: new Date().toLocaleString()
+        orderDate: new Date().toLocaleString(),
+        shippingInfo: shippingInfo
       };
       existingOrders.unshift(newOrder);
       localStorage.setItem("myOrders", JSON.stringify(existingOrders));
@@ -243,104 +269,223 @@ function Checkout() {
   return (
     <>
       <Navbar />
-      <div className="checkout-container">
-        <h2>
-          <i className="fas fa-shopping-bag"></i> 
-          Checkout
-        </h2>
-        
-        <div className="checkout-summary">
-          <h3>Order Summary ({cart.items.length} {cart.items.length === 1 ? 'item' : 'items'})</h3>
-          
-          <div className="order-items">
-            {cart.items.map((item, index) => (
-              <div className="product-details" key={item.productId._id}>
-                <img 
-                  src={item.productId.image} 
-                  alt={item.productId.name}
-                  onError={(e) => {
-                    e.target.src = "https://via.placeholder.com/120x120?text=Car";
-                  }}
-                />
-                
-                <div className="product-info">
-                  <h3>{item.productId.name}</h3>
-                  <p className="product-price">₹{item.productId.price.toLocaleString()}</p>
-                  
-                  <div className="quantity-controls">
-                    <button 
-                      onClick={() => decreaseQuantity(index, item.productId._id, item.quantity)}
-                      disabled={updatingItem === index}
-                      className="qty-btn"
-                    >
-                      <i className="fas fa-minus"></i>
-                    </button>
-                    
-                    <span className="quantity-value">
-                      {updatingItem === index ? (
-                        <i className="fas fa-spinner fa-spin"></i>
-                      ) : (
-                        item.quantity
-                      )}
-                    </span>
-                    
-                    <button 
-                      onClick={() => increaseQuantity(index, item.productId._id, item.quantity)}
-                      disabled={updatingItem === index}
-                      className="qty-btn"
-                    >
-                      <i className="fas fa-plus"></i>
-                    </button>
-                  </div>
+      <div className="checkout-page-wrapper">
+        <div className="checkout-title-section">
+          <h2>
+            <i className="fas fa-shopping-bag"></i> Checkout
+          </h2>
+          <p>Complete your booking details below</p>
+        </div>
+
+        <div className="checkout-layout">
+          {/* LEFT COLUMN: Shipping & Payment Form */}
+          <div className="checkout-left-col">
+            <div className="checkout-form-card">
+              <h3><i className="fas fa-shipping-fast"></i> Shipping Details</h3>
+              <div className="form-grid">
+                <div className="input-group full-width">
+                  <label htmlFor="fullName">Full Name</label>
+                  <input
+                    type="text"
+                    id="fullName"
+                    name="fullName"
+                    placeholder="Enter your full name"
+                    value={shippingInfo.fullName}
+                    onChange={handleInputChange}
+                    required
+                  />
                 </div>
-                
-                <div className="item-total">
-                  <div className="total-price">
-                    ₹{(item.productId.price * item.quantity).toLocaleString()}
-                  </div>
-                  <button 
-                    onClick={() => removeItem(index, item.productId._id)}
-                    className="remove-btn"
-                    disabled={updatingItem === index}
-                  >
-                    <i className="fas fa-trash-alt"></i> Remove
-                  </button>
+
+                <div className="input-group">
+                  <label htmlFor="phone">Phone Number</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="Enter phone number"
+                    value={shippingInfo.phone}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label htmlFor="pincode">Pincode</label>
+                  <input
+                    type="text"
+                    id="pincode"
+                    name="pincode"
+                    placeholder="6-digit pincode"
+                    value={shippingInfo.pincode}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+
+                <div className="input-group full-width">
+                  <label htmlFor="address">Address</label>
+                  <textarea
+                    id="address"
+                    name="address"
+                    rows="3"
+                    placeholder="Apartment, street address, area"
+                    value={shippingInfo.address}
+                    onChange={handleInputChange}
+                    required
+                  ></textarea>
+                </div>
+
+                <div className="input-group full-width">
+                  <label htmlFor="city">City / District</label>
+                  <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    placeholder="Enter city"
+                    value={shippingInfo.city}
+                    onChange={handleInputChange}
+                    required
+                  />
                 </div>
               </div>
-            ))}
+            </div>
+
+            <div className="checkout-form-card">
+              <h3><i className="fas fa-credit-card"></i> Payment Method</h3>
+              <div className="payment-options">
+                <label className={`payment-option ${shippingInfo.paymentMethod === 'cod' ? 'active' : ''}`}>
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="cod"
+                    checked={shippingInfo.paymentMethod === 'cod'}
+                    onChange={handleInputChange}
+                  />
+                  <div className="option-content">
+                    <span className="option-icon"><i className="fas fa-money-bill-wave"></i></span>
+                    <div className="option-details">
+                      <h4>Cash on Delivery (COD)</h4>
+                      <p>Pay with cash upon vehicle delivery/handover.</p>
+                    </div>
+                  </div>
+                </label>
+
+                <label className={`payment-option ${shippingInfo.paymentMethod === 'card' ? 'active' : ''}`}>
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="card"
+                    checked={shippingInfo.paymentMethod === 'card'}
+                    onChange={handleInputChange}
+                  />
+                  <div className="option-content">
+                    <span className="option-icon"><i className="fas fa-university"></i></span>
+                    <div className="option-details">
+                      <h4>Credit / Debit Card</h4>
+                      <p>Pay securely with Visa, Mastercard, or RuPay.</p>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN: Order Summary & Placement */}
+          <div className="checkout-right-col">
+            <div className="checkout-summary-card">
+              <h3>Order Summary ({cart.items.length} {cart.items.length === 1 ? 'item' : 'items'})</h3>
+              
+              <div className="order-items">
+                {cart.items.map((item, index) => (
+                  <div className="product-details" key={item.productId._id}>
+                    <img 
+                      src={item.productId.image} 
+                      alt={item.productId.name}
+                      onError={(e) => {
+                        e.target.src = "https://via.placeholder.com/120x120?text=Car";
+                      }}
+                    />
+                    
+                    <div className="product-info">
+                      <h3>{item.productId.name}</h3>
+                      <p className="product-price">₹{item.productId.price.toLocaleString()}</p>
+                      
+                      <div className="quantity-controls">
+                        <button 
+                          onClick={() => decreaseQuantity(index, item.productId._id, item.quantity)}
+                          disabled={updatingItem === index}
+                          className="qty-btn"
+                        >
+                          <i className="fas fa-minus"></i>
+                        </button>
+                        
+                        <span className="quantity-value">
+                          {updatingItem === index ? (
+                            <i className="fas fa-spinner fa-spin"></i>
+                          ) : (
+                            item.quantity
+                          )}
+                        </span>
+                        
+                        <button 
+                          onClick={() => increaseQuantity(index, item.productId._id, item.quantity)}
+                          disabled={updatingItem === index}
+                          className="qty-btn"
+                        >
+                          <i className="fas fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <div className="item-total">
+                      <div className="total-price">
+                        ₹{(item.productId.price * item.quantity).toLocaleString()}
+                      </div>
+                      <button 
+                        onClick={() => removeItem(index, item.productId._id)}
+                        className="remove-btn"
+                        disabled={updatingItem === index}
+                      >
+                        <i className="fas fa-trash-alt"></i> Remove
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="price-breakdown">
+                <div className="breakdown-row">
+                  <span>Subtotal</span>
+                  <span>₹{calculateTotal().toLocaleString()}</span>
+                </div>
+                <div className="breakdown-row">
+                  <span>Handling & Delivery</span>
+                  <span className="free">FREE</span>
+                </div>
+                <div className="grand-total-row">
+                  <span>Grand Total</span>
+                  <span className="grand-total-amount">₹{calculateTotal().toLocaleString()}</span>
+                </div>
+              </div>
+
+              <button 
+                onClick={handleBooking} 
+                className="place-order-btn"
+                disabled={isProcessing}
+              >
+                {isProcessing ? (
+                  <>
+                    <i className="fas fa-spinner fa-spin"></i> Processing...
+                  </>
+                ) : (
+                  <>
+                    <i className="fas fa-check-circle"></i> Place Order Booking
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
-
-        <div className="order-total">
-          <div className="total-details">
-            <h3>Total Amount:</h3>
-            <p className="total-breakdown">
-              Subtotal: ₹{calculateTotal().toLocaleString()}
-            </p>
-            <p className="total-breakdown delivery">
-              Delivery: <span className="free">FREE</span>
-            </p>
-          </div>
-          <div className="grand-total">
-            ₹{calculateTotal().toLocaleString()}
-          </div>
-        </div>
-
-        <button 
-          onClick={handleBooking} 
-          className="place-order-btn"
-          disabled={isProcessing}
-        >
-          {isProcessing ? (
-            <>
-              <i className="fas fa-spinner fa-spin"></i> Processing...
-            </>
-          ) : (
-            <>
-              <i className="fas fa-check-circle"></i> Confirm Booking
-            </>
-          )}
-        </button>
       </div>
     </>
   );
